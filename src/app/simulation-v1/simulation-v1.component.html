@@ -1,0 +1,83 @@
+<div class="maze-container">
+  <div class="settings">
+    <button (click)="generateMaze()">Start</button>
+    <div class="variable" *ngIf="fieldSize">
+      <label>{{ fieldSize.name }}</label>
+      <input
+        class="variable-input"
+        type="number"
+        [(ngModel)]="fieldSize.value"
+      />
+    </div>
+    <div class="variable enable-lines" *ngIf="enableLines">
+      <label>{{ enableLines.name }}</label>
+      <div class="choices">
+        <span
+          (click)="enableLines.value = false"
+          [class.selected]="!enableLines.value"
+          >No</span
+        >
+        <span
+          (click)="enableLines.value = true"
+          [class.selected]="enableLines.value"
+          >Yes</span
+        >
+      </div>
+    </div>
+    <div class="variable" *ngFor="let variable of settingVariables">
+      <label>{{ variable.name }}</label>
+      <label *ngIf="variable.unit">{{ variable.unit }}</label>
+      <input class="variable-input" [(ngModel)]="variable.value" />
+    </div>
+    <div class="add-walker variable" *ngIf="maze">
+      <label>Add a new walker</label>
+      <select [(ngModel)]="walkerType">
+        <option value="straight">Straight</option>
+        <option value="diagonal">Diagonal</option>
+        <option value="drunk" selected>Drunk</option>
+      </select>
+      <button (click)="addWalker()">Add</button>svg
+    </div>
+  </div>
+  <div
+    class="environment"
+    *ngIf="environment"
+    [style.--field-size]="fieldSize.value + 'px'"
+  >
+    <div *ngFor="let row of environment.fields" class="row">
+      <div
+        *ngFor="let column of row; trackBy: fieldById"
+        class="column"
+        [class.passed]="column.passed"
+      >
+        <!-- {{ column.fieldId }} -->
+        <span>{{ column.hasResource ? "R" : "" }}</span>
+      </div>
+    </div>
+    <div
+      *ngFor="let walker of environment.walkers; trackBy: walkerByName"
+      class="walker"
+      [ngStyle]="walkerStyle(walker)"
+    >
+      <fa-icon
+        [icon]="walker.uiSetting?.icon"
+        [size]="fieldSize.value >= 30 ? 'lg' : 'xs'"
+      ></fa-icon>
+    </div>
+    <svg
+      *ngIf="enableLines.value"
+      [attr.width]="fieldSize.value * environment.settings.width"
+      [attr.height]="fieldSize.value * environment.settings.height"
+    >
+      <g *ngFor="let walker of environment.walkers; trackBy: walkerByName">
+        <polyline
+          *ngIf="walker.walkHistory.length > 1"
+          [attr.points]="walkerHistoryPoints(walker)"
+          fill="none"
+          [attr.stroke]="walker.uiSetting?.color"
+          stroke-width="2"
+        />
+      </g>
+    </svg>
+  </div>
+</div>

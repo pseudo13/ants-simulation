@@ -1,0 +1,69 @@
+#versionSelector {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > select {
+    width: calc(100% - 50px);
+    padding: 5px;
+    margin-left: 10px;
+  }
+  > label {
+    font-size: large;
+    font-weight: bold;
+    white-space: nowrap;
+    padding-left: 10px;
+  }
+}
+
+button {
+  padding: 5px;
+}
+
+.actions,
+.side-actions {
+  width: calc(100% - 250px);
+  border-bottom: 1px solid darkgray;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 29px;
+  .loader {
+    position: relative;
+    height: 100%;
+    display: block;
+    &[hidden] {
+      > * {
+        display: none;
+      }
+    }
+  }
+  button {
+    cursor: pointer;
+    height: 100%;
+    background-color: orange;
+    border: none;
+    border-right: 1px solid white;
+    margin-right: 1px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: large;
+    padding-left: 20px;
+  }
+}
+
+.toolbar {
+  width: 100%;
+  display: flex;
+}
+
+.connection-status {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.simulation-area {
+  z-index: 1;
+}
